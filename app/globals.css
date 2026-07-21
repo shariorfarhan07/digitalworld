@@ -1,0 +1,197 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  @apply bg-surface text-on-surface font-body antialiased;
+  overflow-x: hidden;
+}
+
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: "FILL" 1, "wght" 300, "GRAD" 0, "opsz" 24;
+}
+
+::selection {
+  background: rgba(77, 142, 255, 0.35);
+  color: #e1e2ec;
+}
+
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .ghost-border {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .label-caps {
+    @apply font-body text-sm font-medium uppercase tracking-label text-on-surface-variant;
+  }
+
+  .divider-h {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1) 20%,
+      rgba(255, 255, 255, 0.1) 80%,
+      transparent
+    );
+  }
+
+  .text-gradient {
+    @apply bg-text-gradient bg-clip-text text-transparent;
+  }
+}
+
+/* rich post content — used by both the TipTap editor and the public article page */
+.post-body {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #e1e2ec;
+}
+.post-body > * + * {
+  margin-top: 1.25em;
+}
+.post-body h2 {
+  font-family: var(--font-bricolage), serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: 1.6em;
+}
+.post-body h3 {
+  font-family: var(--font-bricolage), serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: 1.4em;
+}
+.post-body a {
+  color: #adc6ff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.post-body strong {
+  color: #ffffff;
+}
+.post-body ul,
+.post-body ol {
+  padding-left: 1.4em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+.post-body ul {
+  list-style: disc;
+}
+.post-body ol {
+  list-style: decimal;
+}
+.post-body blockquote {
+  border-left: 2px solid rgba(173, 198, 255, 0.5);
+  padding-left: 1.25em;
+  color: #c2c6d6;
+  font-style: italic;
+}
+.post-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0.5em 0;
+}
+.post-body hr {
+  border: none;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* the editor surface itself */
+.tiptap-editor {
+  min-height: 320px;
+  padding: 1.25rem;
+  font-size: 1rem;
+}
+.tiptap-editor:focus {
+  outline: none;
+}
+.tiptap-editor p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #8c909f;
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+.tiptap-editor img.ProseMirror-selectednode {
+  outline: 2px solid #4d8eff;
+  outline-offset: 2px;
+}
+
+/* ambient radial glows floating in the void behind content */
+.ambient-glow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+/* founder scene light rays — pure CSS fallback for the missing Asset 4 */
+.light-rays {
+  position: absolute;
+  inset: -20%;
+  background:
+    linear-gradient(115deg, transparent 42%, rgba(255, 252, 240, 0.05) 47%, transparent 52%),
+    linear-gradient(115deg, transparent 58%, rgba(255, 252, 240, 0.035) 62%, transparent 68%),
+    linear-gradient(115deg, transparent 24%, rgba(173, 198, 255, 0.04) 30%, transparent 38%);
+  animation: rays-breathe 9s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes rays-breathe {
+  from {
+    opacity: 0.55;
+    transform: translateX(-1.5%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(1.5%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .light-rays {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
