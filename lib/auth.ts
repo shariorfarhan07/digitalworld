@@ -36,20 +36,33 @@ export function isAdmin(): boolean {
   return verifySessionToken(cookies().get(COOKIE)?.value);
 }
 
-export function sessionCookie(token: string) {
+/**
+ * Whether the incoming request actually arrived over HTTPS — checked directly
+ * rather than inferred from NODE_ENV, since a "production" build can still be
+ * served over plain HTTP (e.g. no reverse-proxy TLS termination in front of
+ * it). A `Secure` cookie set on an HTTP response is silently dropped by
+ * browsers, which breaks login in exactly that setup.
+ */
+export function isSecureRequest(req: Request): boolean {
+  const proto = req.headers.get("x-forwarded-proto");
+  if (proto) return proto.split(",")[0].trim() === "https";
+  return new URL(req.url).protocol === "https:";
+}
+
+export function sessionCookie(token: string, secure: boolean) {
   return {
     name: COOKIE,
     value: token,
     httpOnly: true,
     sameSite: "lax" as const,
-    secure: process.env.NODE_ENV === "production",
+    secure,
     path: "/",
     maxAge: MAX_AGE,
   };
 }
 
-export function clearedSessionCookie() {
-  return { ...sessionCookie(""), maxAge: 0 };
+export function clearedSessionCookie(secure: boolean) {
+  return { ...sessionCookie("", secure), maxAge: 0 };
 }
 
 /** Verifies a password against a "scrypt$<salt>$<hash>" string (see scripts/create-admin.js). */

@@ -4,13 +4,14 @@ import {
   checkCredentials,
   clientIp,
   createSessionToken,
+  isSecureRequest,
   sessionCookie,
 } from "@/lib/auth";
 
 export const runtime = "nodejs";
 
-// 5 attempts per 15 minutes per IP
-const LIMIT = 5;
+// 10 attempts per 15 minutes per IP
+const LIMIT = 10;
 const WINDOW = 15 * 60;
 
 export async function POST(req: Request) {
@@ -41,6 +42,6 @@ export async function POST(req: Request) {
   }
 
   const res = NextResponse.json({ ok: true });
-  res.cookies.set(sessionCookie(createSessionToken()));
+  res.cookies.set(sessionCookie(createSessionToken(), isSecureRequest(req)));
   return res;
 }
