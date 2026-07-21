@@ -8,6 +8,7 @@ import Process from "@/components/scenes/Process";
 import Founder from "@/components/scenes/Founder";
 import Mission from "@/components/scenes/Mission";
 import Authority from "@/components/scenes/Authority";
+import BlogPreview from "@/components/scenes/BlogPreview";
 import Testimonials from "@/components/scenes/Testimonials";
 import Offer from "@/components/scenes/Offer";
 import Footer from "@/components/scenes/Footer";
@@ -27,6 +28,7 @@ export default function Home() {
       <Founder />
       <Mission />
       <Authority />
+      <BlogPreview />
       <Testimonials />
       <Offer />
       <Footer />
