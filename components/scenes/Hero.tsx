@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import AmbientVideo from "@/components/ui/AmbientVideo";
 import MagneticButton from "@/components/ui/MagneticButton";
@@ -77,14 +76,7 @@ export default function Hero() {
           </div>
 
           <div className="ghost-border relative aspect-[4/3] overflow-hidden rounded-xl bg-surface-lowest md:aspect-[16/10]">
-            <Image
-              src="/media/orb.jpg"
-              alt="Glass sphere refracting electric blue and violet light"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-              priority
-            />
+            <AmbientVideo src="/media/orb.mp4" poster="/media/orb.jpg" />
             <div className="absolute inset-0 shadow-[inset_0_0_120px_rgba(16,19,26,0.9)]" />
           </div>
 

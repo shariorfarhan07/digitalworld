@@ -7,6 +7,8 @@ type Props = {
   src: string;
   poster?: string;
   className?: string;
+  /** extra classes applied to the <video>/<img> element itself, e.g. for masking or blend modes */
+  mediaClassName?: string;
   /** dim the video with an overlay, 0–1 */
   overlay?: number;
 };
@@ -15,7 +17,7 @@ type Props = {
  * Ambient looping background video: lazy, muted, pauses offscreen,
  * falls back to the poster (or nothing) under prefers-reduced-motion.
  */
-export default function AmbientVideo({ src, poster, className, overlay = 0 }: Props) {
+export default function AmbientVideo({ src, poster, className, mediaClassName, overlay = 0 }: Props) {
   const ref = useRef<HTMLVideoElement>(null);
   const [reduced, setReduced] = useState(false);
 
@@ -41,7 +43,7 @@ export default function AmbientVideo({ src, poster, className, overlay = 0 }: Pr
     <div className={clsx("pointer-events-none absolute inset-0 overflow-hidden", className)}>
       {reduced && poster ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={poster} alt="" className="h-full w-full object-cover" />
+        <img src={poster} alt="" className={clsx("h-full w-full object-cover", mediaClassName)} />
       ) : !reduced ? (
         <video
           ref={ref}
@@ -52,7 +54,7 @@ export default function AmbientVideo({ src, poster, className, overlay = 0 }: Pr
           playsInline
           preload="metadata"
           aria-hidden="true"
-          className="h-full w-full object-cover"
+          className={clsx("h-full w-full object-cover", mediaClassName)}
         />
       ) : null}
       {overlay > 0 && (

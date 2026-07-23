@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
 import MagneticButton from "@/components/ui/MagneticButton";
+import AmbientVideo from "@/components/ui/AmbientVideo";
 
 const inputStyles =
   "w-full rounded-lg border border-white/10 bg-black px-4 py-3.5 font-body text-base text-on-surface placeholder:text-outline focus:border-primary-container focus:outline-none focus:ring-1 focus:ring-primary-container/60 transition-colors duration-300";
@@ -48,12 +48,10 @@ export default function Offer() {
         className="pointer-events-none absolute -right-48 bottom-10 hidden h-[420px] w-[420px] opacity-60 mix-blend-screen lg:block"
         aria-hidden="true"
       >
-        <Image
-          src="/media/orb.jpg"
-          alt=""
-          fill
-          sizes="420px"
-          className="rounded-full object-cover [mask-image:radial-gradient(circle,black_55%,transparent_72%)]"
+        <AmbientVideo
+          src="/media/orb.mp4"
+          poster="/media/orb.jpg"
+          mediaClassName="rounded-full [mask-image:radial-gradient(circle,black_55%,transparent_72%)]"
         />
       </div>
 
